@@ -1,7 +1,7 @@
 devkey="ssh-rsa <公钥>"
 yunweikey="ssh-rsa <公钥>"
 
-CrePubKey(){
+ImportPubKey(){
   useradd $1
   HOME=/home/$1
   IDCMD=id; [ -x /usr/xpg4/bin/id ] && IDCMD=/usr/xpg4/bin/id
@@ -18,8 +18,8 @@ CrePubKey(){
     echo "Error: must be run by root" 
   fi
 }
-CreSu(){
-  echo "start cresu"
+ImportSu(){
+  echo "start importsu"
   grep "$1" /etc/sudoers |grep "su"  > /dev/null
   if [ "$?" != 0 ];then 
     echo "$1 ALL=(ALL) NOPASSWD: /usr/bin/su"  >> /etc/sudoers
@@ -28,7 +28,7 @@ CreSu(){
   fi
 }
 
-CrePubKey  yunwei "$yunweikey"
-CrePubKey  dev    "$devkey"
+ImportPubKey  yunwei "$yunweikey"
+ImportPubKey  dev    "$devkey"
 
-CreSu  yunwei
+ImportSu  yunwei
