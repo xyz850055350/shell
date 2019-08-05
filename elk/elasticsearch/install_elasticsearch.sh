@@ -74,5 +74,8 @@ else
     chown -R $username.$username /data/ /usr/local/elasticsearch*
 fi
 
+#安装ik分词插件
+/usr/local/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.3.2/elasticsearch-analysis-ik-6.3.2.zip
+
 systemctl start elasticsearch
 systemctl status elasticsearch
