@@ -50,7 +50,7 @@ check_run(){
   which java > /dev/null 2>&1
   if [ $? -ne 0  ]; then
     echo -e "\033[31m未检测到java环境,下载jdk安装中……\033[0m"
-    wget -q http://soft.kyepm.com/package/jdk.bin -P $soft_dir > /dev/null
+    wget -q http://10.10.10.10/package/jdk.bin -P $soft_dir > /dev/null
     sh $soft_dir/jdk.bin
     source /etc/profile
     ln -s `which java`/usr/bin/java
