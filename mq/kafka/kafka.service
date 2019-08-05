@@ -1,0 +1,15 @@
+[Unit]
+Description=kafka - high performance web server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/server.properties 
+ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh  
+Restart=always
+User=app
+Group=app
+
+[Install]
+WantedBy=multi-user.target
+EOF
