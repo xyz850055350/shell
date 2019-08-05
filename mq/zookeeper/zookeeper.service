@@ -1,0 +1,15 @@
+[Unit]
+Description=zookeeper
+After=syslog.target network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/zookeeper/bin/zkServer.sh start 
+ExecStop=/usr/local/zookeeper/bin/zkServer.sh stop
+Restart=always
+User=app
+Group=app
+
+[Install]
+WantedBy=multi-user.target
+EOF
