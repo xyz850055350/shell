@@ -31,22 +31,22 @@ if [ $? -eq 0 ];then
    nginxtype_or=`hostname | awk -F "-" '{print $4}' | grep nginx`
    if [ $? -eq 0 ];then
        echo "这是前端nginx类型日志"
-       System=erp-prd-nginx-front
+       System=nginx-front
    else
        echo "这是网关nginx类型日志"
-       System=erp-prd-nginx-gateway
+       System=nginx-gateway
    fi
 elif [[ $es_or -eq 1 ]];then
    mv /usr/local/filebeat/filebeat.yml /usr/local/filebeat/filebeat-bak.yml
    wget http://10.10.10.10/filebeat/filebeat-es.yml -O /usr/local/filebeat/filebeat.yml
-   System=erp-es-slow
+   System=es-slow
 else
    echo "这是java类型日志"
    mv /usr/local/filebeat/filebeat.yml /usr/local/filebeat/filebeat-bak.yml
    wget http://10.10.10.10/filebeat/filebeat-java.yml -O /usr/local/filebeat/filebeat.yml
-   Systemnum=`find /app/erp/*.jar | awk -F.jar '{print $1}' | awk -Ferp/ '{print $2}'| wc -l`
+   Systemnum=`find /data/*.jar | awk -F.jar '{print $1}' | awk -Ferp/ '{print $2}'| wc -l`
    if [[ $Systemnum -eq 1 ]];then
-        System=`find /app/erp/*.jar | awk -F.jar '{print $1}' | awk -Ferp/ '{print $2}'`
+        System=`find /data/*.jar | awk -F.jar '{print $1}' | awk -Ferp/ '{print $2}'`
    else
     exit 1
    fi
