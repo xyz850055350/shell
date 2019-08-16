@@ -4,39 +4,36 @@
 echo "V1.0.0" > /etc/init_centos_ver
 
 #1.1堡垒机/运维平台/Jenkins平台新建账号,及平台密钥
-appkey="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWG7pFpIaJctqb+updccAHXPjFKrcLLzwmSBJUu91rxAJAbJpVVweknppuHdK5oUEezbDG4P9v2kso0dOGzNgGO62qtrSLDyZDbEPTE3pjIcfFMqEM0Mjx/pPngT2ZnR6M03zTMIVh66u6wdKFG9Z3wLiQpzO1kt1aW7JdhjlX33vTmjWkxIkcngOAGfsAcxoMAsRG3AknkJ1se9YnotiT5DV6EIpZoE7vnD5pt0XoKjPkCe1del8a8elx2t5m1IHs1dxE6JWeHk4CunInUkPMnEWLw7Y7oMmZFUHrDnlvh2JN9goKeNR/uDq31wQ0lg5dDgfqwt7/QUvCRDQ54G6z root@Pre-0-7"
-yunweikey="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWG7pFpIaJctqb+updccAHXPjFKrcLLzwmSBJUu91rxAJAbJpVVweknppuHdK5oUEezbDG4P9v2kso0dOGzNgGO62qtrSLDyZDbEPTE3pjIcfFMqEM0Mjx/pPngT2ZnR6M03zTMIVh66u6wdKFG9Z3wLiQpzO1kt1aW7JdhjlX33vTmjWkxIkcngOAGfsAcxoMAsRG3AknkJ1se9YnotiT5DV6EIpZoE7vnD5pt0XoKjPkCe1del8a8elx2t5m1IHs1dxE6JWeHk4CunInUkPMnEWLw7Y7oMmZFUHrDnlvh2JN9goKeNR/uDq31wQ0lg5dDgfqwt7/QUvCRDQ54G6z root@Pre-0-7"
+appkey="ssh-rsa "
+yunweikey="ssh-rsa "
 
 CrePubKey(){
-    useradd $1
-    HOME=/home/$1
-    IDCMD=id; [ -x /usr/xpg4/bin/id ] && IDCMD=/usr/xpg4/bin/id
-    if [ `$IDCMD -un` = "root" ]
-    then
-        if [ -f $HOME/.ssh/authorized_keys ]
-    then
-           echo  $2 >> $HOME/.ssh/authorized_keys
+  useradd $1
+  HOME=/home/$1
+  IDCMD=id; [ -x /usr/xpg4/bin/id ] && IDCMD=/usr/xpg4/bin/id
+  if [ `$IDCMD -un` = "root" ];then
+    if [ -f $HOME/.ssh/authorized_keys ];then
+	  echo  $2 >> $HOME/.ssh/authorized_keys
     else
-            mkdir -p $HOME/.ssh 
-            chmod 700 $HOME/.ssh
-            echo  $2 >> $HOME/.ssh/authorized_keys 
-            chmod 600 $HOME/.ssh/authorized_keys
-            chown ${1}:${1} -R $HOME/.ssh 
-        fi
-    else 
-        echo "Error: must be run by root" 
+	  mkdir -p $HOME/.ssh 
+	  chmod 700 $HOME/.ssh
+	  echo  $2 >> $HOME/.ssh/authorized_keys 
+	  chmod 600 $HOME/.ssh/authorized_keys
+	  chown ${1}:${1} -R $HOME/.ssh 
     fi
+  else 
+    echo "Error: must be run by root" 
+  fi
 }
 
 CreSu(){
-     echo "start cresu"
-     grep "$1" /etc/sudoers |grep "NOPASSWD: ALL"  > /dev/null
-     if [ "$?" != 0 ] 
-     then 
-         echo "$1 ALL=(ALL) NOPASSWD: ALL"  >> /etc/sudoers
-     else 
-         echo "$1 已有sudo权限 "
-     fi  
+  echo "start cresu"
+  grep "$1" /etc/sudoers |grep "NOPASSWD: ALL"  > /dev/null
+  if [ "$?" != 0 ];then
+    echo "$1 ALL=(ALL) NOPASSWD: ALL"  >> /etc/sudoers
+  else 
+    echo "$1 已有sudo权限"
+  fi  
 }
 
 CrePubKey yunwei "$yunweikey"
@@ -53,8 +50,8 @@ GroupDel="adm lp news uucp games dip pppusers"
 for g in ${GroupDel};do groupdel ${g};done
 
 #1.4标准化系统账号,初始化密码
-echo 'xydev@2019.com' | passwd --stdin dev
-echo 'xyapp@2019.com' | passwd --stdin app
+echo 'dev@2019.com' | passwd --stdin dev
+echo 'app@2019.com' | passwd --stdin app
 
 ##1.5建立usr01用户组
 #groupadd -g 1600 usr01
@@ -139,7 +136,7 @@ cat > /etc/motd <<EOF
 *   Attention: Auditing process will report your every action!           *
 *   Warning: Don't delete any files in directory /root/slogs!!           *
 *                                                                        *
-*                             --Shanghai Gaojing Culture Media Co.,Ltd.  *
+*                                                           -- Co.,Ltd.  *
 **************************************************************************
 EOF
 
