@@ -84,6 +84,7 @@ no-auto-rehash
 default-character-set=utf8
  
 [mysqld]
+bind-addres=0.0.0.0
 port=3306
 character-set-server=utf8
 socket=${mysql_data_dir}/mysql.sock
