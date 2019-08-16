@@ -1,0 +1,98 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": 32
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "mysqlreader",
+                    "parameter": {
+                        "username": "log",
+                        "password": "log",
+                        "connection": [
+                            {
+                                "querySql": [
+                                    "SELECT * FROM message WHERE enabled_flag=1;"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:mysql://10.10.10.10:3306/log"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "name": "elasticsearchwriter",
+                    "parameter": {
+                        "endpoint": "http://10.10.10.10:9200",
+                        "index": "openapi-test",
+                        "accessId": "elastic",
+                        "accessKey": "elastic",
+                        "cleanup": false,
+                        "discovery": false,
+                        "batchSize": 5000,
+                        "type": "doc",
+                        "splitter": ",",
+                        "column": [
+                            {
+                                "name": "id",
+                                "type": "long"
+                            },
+                            {
+                                "name": "interfaceId",
+                                "type": "long"
+                            },
+                            {
+                                "name": "interfaceSubscribeId",
+                                "type": "long"
+                            },
+                            {
+                                "name": "appId",
+                                "type": "long"
+                            },
+                            {
+                                "name": "topic",
+                                "type": "text"
+                            },
+                            {
+                                "name": "messagePartition",
+                                "type": "long"
+                            },
+                            {
+                                "name": "messageOffset",
+                                "type": "long"
+                            },
+                            {
+                                "name": "env",
+                                "type": "text"
+                            },
+                            {
+                                "name": "creationDate",
+                                "type": "long"
+                            },
+                            {
+                                "name": "createdBy",
+                                "type": "text"
+                            },
+                            {
+                                "name": "updationDate",
+                                "type": "long"
+                            },
+                            {
+                                "name": "updatedBy",
+                                "type": "text"
+                            },
+                            {
+                                "name": "enabledFlag",
+                                "type": "long"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
