@@ -1,0 +1,89 @@
+#!/bin/sh
+#
+# java        init file for starting up the java daemon
+#
+# chkconfig:   345  97 3
+# description: Starts and stops the java daemon.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+port=8000
+name="java"
+exec="/usr/java/jdk1.8.0_91/bin/$name"
+pidfile="/var/run/tomcat_8000.pid"
+export TOMCAT_HOME="/usr/local/tomcat/$port"
+export CATALINA_BASE="/usr/local/tomcat/$port"
+
+
+# [ -e /etc/sysconfig/java ] && . /etc/sysconfig/java
+
+lockfile=/var/lock/subsys/java
+
+start() {
+    [ -x $exec ] || exit 5
+    echo -e "\033[36mStarting $name...... \033[0m"
+ #   daemon  "$TOMCAT_HOME/bin/startup.sh"
+    su - tomcat -c $TOMCAT_HOME/bin/startup.sh
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    tomcat_pid=$(ps -ef |grep tomcat |grep -Ev "grep|$$"|grep $port |awk '{print $2}')
+    echo  $tomcat_pid > $pidfile
+    return $retval
+}
+
+stop() {
+    echo -en "\033[36mStopping $name......\033[0m"
+    killproc -p $pidfile 
+    retval=$?
+    rm -rf $TOMCAT_HOME/work/*
+    rm -rf $TOMCAT_HOME/logs/*
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+restart() {
+    rh_status_q
+    if [ $? -eq 0 ];then
+      stop
+      start
+    else
+      start
+    fi
+}
+
+rh_status() {
+    status -p $pidfile $name
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+case "$1" in
+    start)
+        rh_status_q && echo -e "\033[36mtomcat8000 is Running.\033[0m" && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q
+        if [ $? -eq 0 ];then
+          $1
+        else
+          echo -e "\033[36mtomcat8000 is Stopped.\033[0m"
+          exit 0
+        fi
+        ;;
+    restart)
+        $1
+        ;;
+    status)
+        rh_status
+        ;;
+    *)
+        echo -e "\033[31;5mUsage: $0 {start|stop|status|restart}\033[0m"
+        exit 2
+esac
+exit $?
