@@ -8,13 +8,17 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+#取消systemctl命令重定向
+#sed -i 's/_use_systemctl=1/_use_systemctl=0/g' /etc/rc.d/init.d/functions
+
+. /etc/profile
+
 port=8000
 name="java"
 exec="/usr/java/jdk1.8.0_91/bin/$name"
 pidfile="/var/run/tomcat_8000.pid"
 export TOMCAT_HOME="/usr/local/tomcat/$port"
 export CATALINA_BASE="/usr/local/tomcat/$port"
-
 
 # [ -e /etc/sysconfig/java ] && . /etc/sysconfig/java
 
@@ -64,7 +68,7 @@ rh_status_q() {
 
 case "$1" in
     start)
-        rh_status_q && echo -e "\033[36mtomcat8000 is Running.\033[0m" && exit 0
+        rh_status_q && echo -e "\033[36mtomcat$port is Running.\033[0m" && exit 0
         $1
         ;;
     stop)
@@ -72,7 +76,7 @@ case "$1" in
         if [ $? -eq 0 ];then
           $1
         else
-          echo -e "\033[36mtomcat8000 is Stopped.\033[0m"
+          echo -e "\033[36mtomcat$port is Stopped.\033[0m"
           exit 0
         fi
         ;;
