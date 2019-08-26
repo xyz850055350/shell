@@ -63,7 +63,7 @@ echo 'app@2019.com' | passwd --stdin app
 #chown -R kylog:usr01 ~kylog/.ssh
 ##DBA用
 #useradd -u 1602 -o -g usr01 -d /home/kydba kydba
-#echo 'kydba@2018.com' | passwd --stdin kydba
+#echo 'dba@2018.com' | passwd --stdin kydba
 ##普通用户登陆
 #useradd -u 1603 -o -g usr01 -d /home/kyapp kyapp
 #echo 'kyapp@2018.com' | passwd --stdin kyapp
@@ -162,7 +162,6 @@ HISTTIMEFORMAT="%F %T \$(whoami)"
 alias l='ls -AFhlt'
 alias lh='l | head'
 alias vi=vim
-alias cat='cat -n'
 GREP_OPTIONS="--color=auto"
 alias grep='grep --color'
 alias egrep='egrep --color'
