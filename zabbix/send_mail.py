@@ -29,5 +29,5 @@ def excute(to, title, content):
     server.quit()
 
 if __name__ == '__main__':
-    excute(sys.argv[1], sys.argv[2], sys.argv[3])
+    excute(sys.argv[1].split(','), sys.argv[2], sys.argv[3])
 #$1 $2 $3
