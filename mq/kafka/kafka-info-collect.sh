@@ -49,7 +49,6 @@ ka_jdk_version=`$java_path -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`
 ka_app_service_port=`grep ^listeners= $ka_config_dir | awk -F ':' '{print $3}'`
 
 #kafka状态
-
 if [ -n ka_app_service_port ] && [ -n pid ];then
   ka_app_status="kafka is ok"
 else
