@@ -42,7 +42,7 @@ kafka_jar_path=`find $ka_app_homedir/libs/ -name \*kafka_\* |head -1`
 ka_app_version=`basename $kafka_jar_path|awk -F 'kafka_|.jar' '{print $2}'`
 
 #jdk版本
-java_path=`lsof -a -p 2310|grep txt|awk '{print $9}'`
+java_path=`lsof -a -p $pid |grep txt|awk '{print $9}'`
 ka_jdk_version=`$java_path -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`
 
 #kafka服务端口
