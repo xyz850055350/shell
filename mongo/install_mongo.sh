@@ -58,7 +58,7 @@ mkdir -p /data/mongodb/{logs,data}
 
 #检查启动用户并授权
 id $username > /dev/null 2>&1 || useradd $username
-chown -R $username.$username /usr/local/mongodb* /data/{mongodb,logs}
+chown -R $username.$username /usr/local/mongodb* /data/mongodb/{logs,data}
 
 #启动
 systemctl daemon-reload
