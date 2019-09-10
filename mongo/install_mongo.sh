@@ -1,13 +1,13 @@
 #!/bin/bash
 #mongodb单机版安装
-wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb-linux-x86_64-3.6.3.tgz
-#wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.0.3.tgz
+wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb-linux-x86_64-rhel70-4.2.0.tgz
+#wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.0.tgz
 wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb.conf
 wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb.service
 
 username=app
-file_source=/usr/local/src/mongodb-linux-x86_64-3.6.3.tgz
-mongo_ver=mongodb-linux-x86_64-3.6.3
+file_source=/usr/local/src/mongodb-linux-x86_64-rhel70-4.2.0.tgz
+mongo_ver=mongodb-linux-x86_64-rhel70-4.2.0
 
 if [ `whoami` != "root" ]; then
     echo "需使用root用户执行"
