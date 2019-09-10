@@ -1,9 +1,7 @@
 #!/bin/bash
 #mongodb单机版安装
-wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb-linux-x86_64-rhel70-4.2.0.tgz
-#wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.0.tgz
-wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb.conf
-wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb.service
+#wget -P /usr/local/src http://10.10.10.10/package/mongo/mongodb-linux-x86_64-rhel70-4.2.0.tgz
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.0.tgz
 
 username=app
 file_source=/usr/local/src/mongodb-linux-x86_64-rhel70-4.2.0.tgz
@@ -24,26 +22,45 @@ else
   exit 1
 fi
 
+#导入配置文件
 cat > /etc/mongodb.conf<< EOF
 bind_ip=0.0.0.0
 fork=true
-dbpath=/data/mongodb
-logpath=/data/logs/mongodb.log
+dbpath=/data/mongodb/data/
+logpath=/data/mongodb/logs/mongodb.log
 logappend=true
 EOF
 
+#导入service启动文件
+cat > /usr/lib/systemd/system/mongodb.service <<EOF
+[Unit]
+Description=mongodb
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+User=$username
+ExecStart=/usr/local/mongodb/bin/mongod --config /etc/mongodb.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/usr/local/mongodb/bin/mongod --shutdown --config /etc/mongodb.conf
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+#添加mongo环境变量
 echo 'export PATH=/usr/local/mongodb/bin:$PATH' >> /etc/profile
 source /etc/profile
 
-[ $? -eq 0 ] && mv /usr/local/src/mongodb.service /usr/lib/systemd/system
-#[ $? -eq 0 ] && mv /usr/local/src/mongodb.conf /etc/
+#创建目录
+mkdir -p /data/mongodb/{logs,data}
 
-mkdir -p /data/{mongodb,logs}
-
+#检查启动用户并授权
 id $username > /dev/null 2>&1 || useradd $username
 chown -R $username.$username /usr/local/mongodb* /data/{mongodb,logs}
-[ $username != "app" ] && sed -i "s#User=app#User=${username}#g" /usr/lib/systemd/system/mongodb.service
 
+#启动
 systemctl daemon-reload
 systemctl enable mongodb > /dev/null 2>&1
 
