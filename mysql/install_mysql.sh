@@ -2,12 +2,14 @@
 
 #把安装包与sh文件放到同一个目录下
 
+wget -P /usr/local/src/ http://ftp.ntu.edu.tw/MySQL/Downloads/MySQL-5.7/mysql-5.7.27-linux-glibc2.12-x86_64.tar.gz
+
 curr_dir=$(pwd)
 mysql_dir="/usr/local/mysql"       ##mysql的安装生成文件目录
 mysql_data_dir="/data/mysql/data"  ##mysql数据存放目录
 mysql_log_dir="/data/mysql/log"    ##mysql日志存放目录
 mysql_tmp_dir="/data/mysql/tmp"    ##mysql临时文件存放目录
-mysql_tar="mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz"
+mysql_tar="mysql-5.7.27-linux-glibc2.12-x86_64.tar.gz"
 mysql_error_log_name="error.log"
 mysqlrootpwd="123456"              ##mysql的root用户初始密码
 server_id=33062
