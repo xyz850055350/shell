@@ -94,7 +94,8 @@ sed -i 's/authtok_type=/authtok_type= minclass=3/' /etc/pam.d/system-auth
 yum -y install wget vim epel-release lsof lrzsz telnet net-tools openssl openssl-devel openssl-perl \
 openssl-static gcc gcc-c++ glibc glibc-devel nethogs psmisc bind-utils ntpdate sudo strace htop \
 iftop expect bison patch unzip  bzip2 mlocate sysstat setuptool kernel-headers rsync nc mtr \
-traceroute libgcc zlib zlib-devel pcre pcre-devel pcre-static perl-WWW-Curl tree ncurses-devel sl jq
+traceroute libgcc zlib zlib-devel pcre pcre-devel pcre-static perl-WWW-Curl tree ncurses-devel sl jq \
+bash-completion binutils bzr iotop make mutt nfs-utils nmap-ncat nmon numactl pciutils chrony zip
 
 #2.0清除遗留系统服务
 yum -y remove telnet-server rsh-server ypbind ypserv tftp tftp-server talk talk-server
