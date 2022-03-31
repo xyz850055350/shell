@@ -120,10 +120,11 @@ vsftpd wu-ftpd sendmail tftp"
 osrelease=`cat /etc/redhat-release | grep -oE '[0-9]+\.[0-9]+' |awk -F'.' '{print $1}'`
 for s in ${StopServerList}
 do
-if [ $osrelease == 6 ];then    
-    chkconfig --level 3 ${s} off > /dev/null 2>&1
-else
-    systemctl disable ${s} > /dev/null 2>&1
+  if [ $osrelease == 6 ];then    
+      chkconfig --level 3 ${s} off > /dev/null 2>&1
+  else
+      systemctl disable ${s} > /dev/null 2>&1
+  fi
 done
 
 #2.3清除防火墙规则
