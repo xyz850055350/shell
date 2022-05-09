@@ -159,7 +159,7 @@ sed -i 's/^id:5:initdefault:/id:3:initdefault:/' /etc/inittab
 cat > /etc/profile.d/oneinstack.sh << EOF
 HISTSIZE=10000
 PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[37;40m\]@\h \[\e[35;40m\]\W\[\e[0m\]]\\\\$ "
-HISTTIMEFORMAT="%F %T \$(whoami)"
+HISTTIMEFORMAT="%F %T \$(whoami) "
 
 alias l='ls -AFhlt'
 alias lh='l | head'
